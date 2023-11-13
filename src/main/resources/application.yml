@@ -1,15 +1,14 @@
 spring:
   datasource:
-
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: ENC(TsoSYxjLr+XDjuk7jKB8Dg==)
+#    url: ENC(hTJTixW0O564LP55OZAZfLOs6UvOWhV59NX7DAWPn0s+tauToFA7SkxqHHLo8OOt)
+#    password: ekqls832@@
   jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
         use_sql_comments: true
-
-
-#jwt.secret.key:
-#  7Iqk7YyM66W07YOA7L2U65Sp7YG065+9U3ByaW5n6rCV7J2Y7Yqc7YSw7LWc7JuQ67mI7J6F64uI64ukLg==
+        show_sql: true
+    hibernate:
+      ddl-auto: create
