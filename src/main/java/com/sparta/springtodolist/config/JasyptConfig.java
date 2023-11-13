@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class JasyptConfig {
 
     private static final String PASSWORD = "DB_DECRYPT_KEY";
-    private static final String ALGORITHM = "PBEWithMD5AndTripleDES";
+    private static final String ALGORITHM = "PBEWithMD5AndDES";
     private static final String KEY_OBJECTION_ITERATIONS = "1000";
     private static final String POOL_SIZE = "1";
     private static final String PROVIDER_NAME = "SunJCE";
