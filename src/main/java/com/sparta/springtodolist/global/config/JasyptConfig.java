@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.config;
+package com.sparta.springtodolist.global.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
