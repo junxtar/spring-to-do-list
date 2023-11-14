@@ -15,13 +15,13 @@
 </head>
 <body>
 <div id="login-form">
-  <div id="login-title">Log into Select Shop</div>
+  <div id="login-title">Log into Take Card 🃏</div>
   <br>
-  <button id="login-id-btn" onclick="location.href='/api/user/signup'">
+  <button id="login-id-btn" onclick="location.href='/signup'">
     회원 가입하기
   </button>
   <div>
-    <div class="login-id-label">아이디</div>
+    <div class="login-id-label">닉네임</div>
     <input type="text" name="username" id="username" class="login-input-box">
 
     <div class="login-id-label">비밀번호</div>
@@ -70,7 +70,7 @@
     })
     .fail(function (jqXHR, textStatus) {
       alert("Login Fail");
-      window.location.href = host + '/api/user/login-page?error'
+      window.location.href = host + '/login-page?error'
     });
   }
 </script>
