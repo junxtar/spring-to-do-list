@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.domain;
+package com.sparta.springtodolist.global.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
