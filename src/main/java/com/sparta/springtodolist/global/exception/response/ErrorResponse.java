@@ -1,72 +1,37 @@
 package com.sparta.springtodolist.global.exception.response;
 
-import com.sparta.springtodolist.global.exception.ErrorCode;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
-import java.util.stream.Collectors;
-import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.validation.BindingResult;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.FieldError;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@RequiredArgsConstructor
 public class ErrorResponse {
 
-    private String message;
-    private List<FieldError> fieldErrors;
-    private String code;
+    private final String message;
+    private final String code;
 
-    public ErrorResponse(ErrorCode errorCode, List<FieldError> fieldErrors) {
-        this.message = errorCode.getMessage();
-        this.fieldErrors = fieldErrors;
-        this.code = errorCode.getCode();
-    }
-
-    public ErrorResponse(ErrorCode errorCode) {
-        this.message = errorCode.getMessage();
-        this.fieldErrors = new ArrayList<>();
-        this.code = errorCode.getCode();
-    }
-
-    public static ErrorResponse of(ErrorCode code, BindingResult bindingResult) {
-        return new ErrorResponse(code, FieldError.of(bindingResult));
-    }
-
-    public static ErrorResponse of(ErrorCode code) {
-        return new ErrorResponse(code);
-    }
+    @JsonInclude(Include.NON_EMPTY)
+    private final List<ValidationError> errors;
 
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class FieldError {
+    @Builder
+    @RequiredArgsConstructor
+    public static class ValidationError {
 
-        private String field;
-        private String value;
-        private String reason;
+        private final String field;
+        private final String message;
 
-        private FieldError(String field, String value, String reason) {
-            this.field = field;
-            this.value = value;
-            this.reason = reason;
+        public static ValidationError of(final FieldError fieldError) {
+            return ValidationError.builder()
+                .field(fieldError.getField())
+                .message(fieldError.getDefaultMessage())
+                .build();
         }
-        public static List<FieldError> of(String field, String value, String reason) {
-            List<FieldError> fieldErrors = new ArrayList<>();
-            fieldErrors.add(new FieldError(field, value, reason));
-            return fieldErrors;
-        }
-
-        private static List<FieldError> of(BindingResult bindingResult) {
-            List<org.springframework.validation.FieldError> fieldErrors = bindingResult
-                .getFieldErrors();
-            return fieldErrors.stream()
-                .map(error -> new FieldError(
-                    error.getField(),
-                    error.getRejectedValue() == null ? "" :
-                        error.getRejectedValue().toString(),
-                    error.getDefaultMessage()))
-                .collect(Collectors.toList());
-        }
-
     }
 }
