@@ -8,6 +8,9 @@ import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResp
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
 import com.sparta.springtodolist.domain.user.domain.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +43,12 @@ public class CardService {
         Card saveCard = cardRepository.save(card);
 
         return CardCreateResponseDto.of(saveCard, user);
+    }
+
+    public HashMap<String, List<CardResponseDto>> getCards() {
+        return cardRepository.findAllByOrderByCreatedAtDesc().stream()
+            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
+                Collectors.toList()));
     }
 }
