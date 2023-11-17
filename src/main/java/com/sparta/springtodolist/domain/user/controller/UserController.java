@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user/signup")
+    @PostMapping("v1/user/signup")
     public ResponseEntity<UserSignupResponseDto> signup(
         @Valid @RequestBody UserSignupRequestDto userSignupRequestDto) {
 
