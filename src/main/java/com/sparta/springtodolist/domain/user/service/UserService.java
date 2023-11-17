@@ -7,6 +7,7 @@ import com.sparta.springtodolist.domain.user.service.dto.request.UserSignupServi
 import com.sparta.springtodolist.domain.user.service.dto.response.UserSignupResponseDto;
 import com.sparta.springtodolist.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,16 +15,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserSignupResponseDto signup(UserSignupServiceRequestDto requestDto) {
-        User user = User.create(requestDto.getUsername(), requestDto.getPassword());
-
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(requestDto.getUsername())) {
             throw new ExistsUserException(ErrorCode.EXISTS_USERNAME);
         }
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        User user = User.create(requestDto.getUsername(), password);
+
         User saveUser = userRepository.save(user);
 
         return UserSignupResponseDto.of(saveUser);
-
     }
 }
