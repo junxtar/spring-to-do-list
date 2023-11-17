@@ -26,6 +26,6 @@ public class CardService {
 
         Card saveCard = cardRepository.save(card);
 
-        return CardCreateResponseDto.of(saveCard);
+        return CardCreateResponseDto.of(saveCard, user.getUsername());
     }
 }
