@@ -1,37 +1,36 @@
 package com.sparta.springtodolist.domain.card.service.dto.response;
 
 import com.sparta.springtodolist.domain.card.domain.Card;
+import com.sparta.springtodolist.domain.user.domain.User;
+import java.time.LocalDateTime;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CardCreateResponseDto {
 
     private String title;
     private String content;
-    private Boolean isCompleted;
-    private Boolean isPrivated;
     private String username;
+    private LocalDateTime createdAt;
 
     @Builder
-    private CardCreateResponseDto(String title, String content, Boolean isCompleted,
-        Boolean isPrivated, String username) {
+    private CardCreateResponseDto(String title, String content, String username, LocalDateTime createdAt) {
         this.title = title;
         this.content = content;
-        this.isCompleted = isCompleted;
-        this.isPrivated = isPrivated;
         this.username = username;
+        this.createdAt = createdAt;
     }
 
-    public static CardCreateResponseDto of(Card card, String username) {
+    public static CardCreateResponseDto of(Card card, User user) {
         return CardCreateResponseDto.builder()
             .title(card.getTitle())
             .content(card.getContent())
-            .isCompleted(card.getIsCompleted())
-            .isPrivated(card.getIsPrivated())
-            .username(username)
+            .username(user.getUsername())
+            .createdAt(user.getCreatedAt())
             .build();
     }
 }
