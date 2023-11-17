@@ -14,10 +14,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseEntity {
 
     @CreatedDate
-    public LocalDateTime created_at;
+    public LocalDateTime createdAt;
 
     @LastModifiedDate
-    public LocalDateTime modified_at;
+    public LocalDateTime modifiedAt;
 }
 
 
