@@ -85,6 +85,14 @@ public class CardService {
         return CardPrivatedResponseDto.of(card.getIsPrivated());
     }
 
+    @Transactional
+    public void deleteCard(Long cardId, User user) {
+        Card card = verifyExistsCard(cardId);
+        verifyCardOwner(user, card);
+
+        cardRepository.delete(card);
+    }
+
     private Card verifyExistsCard(Long cardId) {
         return cardRepository.findById(cardId)
             .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
