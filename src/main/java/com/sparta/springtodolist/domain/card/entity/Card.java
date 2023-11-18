@@ -47,4 +47,8 @@ public class Card extends BaseEntity {
         this.title = toServiceRequest.getTitle();
         this.content = toServiceRequest.getContent();
     }
+
+    public void updateIsCompleted() {
+        this.isCompleted = !this.isCompleted;
+    }
 }

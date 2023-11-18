@@ -8,6 +8,7 @@ import com.sparta.springtodolist.domain.card.exception.CardNotFoundException;
 import com.sparta.springtodolist.domain.card.repository.CardRepository;
 import com.sparta.springtodolist.domain.card.service.dto.request.CardCreateServiceRequestDto;
 import com.sparta.springtodolist.domain.card.service.dto.request.CardUpdateServiceRequestDto;
+import com.sparta.springtodolist.domain.card.service.dto.response.CardCompletedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
@@ -27,8 +28,7 @@ public class CardService {
     private final CardRepository cardRepository;
 
     public CardResponseDto getCard(Long cardId, User user) {
-        Card card = cardRepository.findById(cardId)
-            .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
+        Card card = verifyExistsCard(cardId);
 
         return CardResponseDto.of(card, user);
     }
@@ -57,16 +57,33 @@ public class CardService {
     }
 
     @Transactional
-    public CardResponseDto updateCard(Long cardId, CardUpdateServiceRequestDto toServiceRequest, User user) {
-        Card card = cardRepository.findById(cardId)
-            .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
+    public CardResponseDto updateCard(Long cardId, CardUpdateServiceRequestDto toServiceRequest,
+        User user) {
+        Card card = verifyExistsCard(cardId);
 
-        if (!card.getUser().getId().equals(user.getId())) {
-            throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
-        }
+        verifyCardOwner(user, card);
 
         card.update(toServiceRequest);
 
         return CardResponseDto.of(card, user);
+    }
+
+    @Transactional
+    public CardCompletedResponseDto updateCardCompleted(Long cardId, User user) {
+        Card card = verifyExistsCard(cardId);
+        verifyCardOwner(user, card);
+        card.updateIsCompleted();
+        return CardCompletedResponseDto.of(card.getIsCompleted());
+    }
+
+    private Card verifyExistsCard(Long cardId) {
+        return cardRepository.findById(cardId)
+            .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
+    }
+
+    private static void verifyCardOwner(User user, Card card) {
+        if (!card.getUser().getId().equals(user.getId())) {
+            throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
+        }
     }
 }
