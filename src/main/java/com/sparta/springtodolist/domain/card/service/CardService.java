@@ -1,12 +1,12 @@
 package com.sparta.springtodolist.domain.card.service;
 
-import com.sparta.springtodolist.domain.card.domain.Card;
+import com.sparta.springtodolist.domain.card.entity.Card;
 import com.sparta.springtodolist.domain.card.exception.CardNotFoundException;
 import com.sparta.springtodolist.domain.card.repository.CardRepository;
 import com.sparta.springtodolist.domain.card.service.dto.request.CardCreateServiceRequestDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
-import com.sparta.springtodolist.domain.user.domain.User;
+import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +45,7 @@ public class CardService {
         return CardCreateResponseDto.of(saveCard, user);
     }
 
-    public HashMap<String, List<CardResponseDto>> getCards() {
+    public HashMap<String, List<CardResponseDto>> getCardList() {
         return cardRepository.findAllByOrderByCreatedAtDesc().stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,

@@ -20,25 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/cards")
 public class CardController {
 
     private final CardService cardService;
 
-    @GetMapping("v1/card/{cardId}")
+    @GetMapping("/{cardId}")
     public ResponseEntity<CardResponseDto> getCard(@PathVariable Long cardId,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardResponseDto responseDto = cardService.getCard(cardId, userDetails.getUser());
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("v1/cards")
-    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCards() {
-        HashMap<String, List<CardResponseDto>> cardMap = cardService.getCards();
+    @GetMapping
+    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCardList() {
+        HashMap<String, List<CardResponseDto>> cardMap = cardService.getCardList();
         return ResponseEntity.ok(cardMap);
     }
 
-    @PostMapping("v1/card")
+    @PostMapping
     public ResponseEntity<CardCreateResponseDto> createCard(
         @Valid @RequestBody CardCreateRequestDto requestDto, @AuthenticationPrincipal
     UserDetailsImpl userDetails) {

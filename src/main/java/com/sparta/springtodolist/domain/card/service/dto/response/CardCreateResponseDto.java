@@ -1,7 +1,7 @@
 package com.sparta.springtodolist.domain.card.service.dto.response;
 
-import com.sparta.springtodolist.domain.card.domain.Card;
-import com.sparta.springtodolist.domain.user.domain.User;
+import com.sparta.springtodolist.domain.card.entity.Card;
+import com.sparta.springtodolist.domain.user.entity.User;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;

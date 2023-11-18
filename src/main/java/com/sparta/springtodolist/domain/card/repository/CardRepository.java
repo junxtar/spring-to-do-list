@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.domain.card.repository;
 
-import com.sparta.springtodolist.domain.card.domain.Card;
+import com.sparta.springtodolist.domain.card.entity.Card;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
