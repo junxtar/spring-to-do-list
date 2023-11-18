@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.domain.user.domain;
+package com.sparta.springtodolist.domain.user.entity;
 
 import com.sparta.springtodolist.global.util.BaseEntity;
 import jakarta.persistence.Column;

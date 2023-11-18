@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.domain.user.repository;
 
-import com.sparta.springtodolist.domain.user.domain.User;
+import com.sparta.springtodolist.domain.user.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

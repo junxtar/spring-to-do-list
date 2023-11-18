@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.domain.user.service.dto.response;
 
-import com.sparta.springtodolist.domain.user.domain.User;
+import com.sparta.springtodolist.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

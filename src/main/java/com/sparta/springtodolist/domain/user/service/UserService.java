@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.domain.user.service;
 
-import com.sparta.springtodolist.domain.user.domain.User;
+import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.domain.user.exception.ExistsUserException;
 import com.sparta.springtodolist.domain.user.repository.UserRepository;
 import com.sparta.springtodolist.domain.user.service.dto.request.UserSignupServiceRequestDto;
