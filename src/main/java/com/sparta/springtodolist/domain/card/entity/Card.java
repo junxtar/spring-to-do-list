@@ -1,6 +1,7 @@
 package com.sparta.springtodolist.domain.card.entity;
 
 import com.sparta.springtodolist.domain.card.service.dto.request.CardUpdateServiceRequestDto;
+import com.sparta.springtodolist.domain.comment.entity.Comment;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.util.BaseEntity;
 import jakarta.persistence.Column;
@@ -11,6 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +37,9 @@ public class Card extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "card")
+    private final List<Comment> comments = new ArrayList<>();
 
     @Builder
     private Card(String title, String content, Boolean isCompleted, Boolean isPrivated, User user) {
