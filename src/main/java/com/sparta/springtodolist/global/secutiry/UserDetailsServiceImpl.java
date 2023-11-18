@@ -2,7 +2,7 @@ package com.sparta.springtodolist.global.secutiry;
 
 import static com.sparta.springtodolist.global.exception.ErrorCode.NOT_FOUND_USERNAME;
 
-import com.sparta.springtodolist.domain.user.domain.User;
+import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
