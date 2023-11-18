@@ -1,5 +1,7 @@
 package com.sparta.springtodolist.domain.card.service;
 
+import static com.sparta.springtodolist.domain.card.constant.CardConstant.DEFAULT_COMPLETE_VALUE;
+
 import com.sparta.springtodolist.domain.card.entity.Card;
 import com.sparta.springtodolist.domain.card.exception.CardNotFoundException;
 import com.sparta.springtodolist.domain.card.repository.CardRepository;
@@ -35,7 +37,7 @@ public class CardService {
         Card card = Card.builder()
             .content(requestDto.getContent())
             .title(requestDto.getTitle())
-            .isCompleted(requestDto.getIsCompleted())
+            .isCompleted(DEFAULT_COMPLETE_VALUE)
             .isPrivated(requestDto.getIsPrivated())
             .user(user)
             .build();
