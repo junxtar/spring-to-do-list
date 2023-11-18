@@ -3,9 +3,11 @@ package com.sparta.springtodolist.domain.card.service;
 import static com.sparta.springtodolist.domain.card.constant.CardConstant.DEFAULT_COMPLETE_VALUE;
 
 import com.sparta.springtodolist.domain.card.entity.Card;
+import com.sparta.springtodolist.domain.card.exception.CardNotAccessException;
 import com.sparta.springtodolist.domain.card.exception.CardNotFoundException;
 import com.sparta.springtodolist.domain.card.repository.CardRepository;
 import com.sparta.springtodolist.domain.card.service.dto.request.CardCreateServiceRequestDto;
+import com.sparta.springtodolist.domain.card.service.dto.request.CardUpdateServiceRequestDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
@@ -52,5 +54,19 @@ public class CardService {
             .map(card -> CardResponseDto.of(card, card.getUser()))
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
                 Collectors.toList()));
+    }
+
+    @Transactional
+    public CardResponseDto updateCard(Long cardId, CardUpdateServiceRequestDto toServiceRequest, User user) {
+        Card card = cardRepository.findById(cardId)
+            .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
+
+        if (!card.getUser().getId().equals(user.getId())) {
+            throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
+        }
+
+        card.update(toServiceRequest);
+
+        return CardResponseDto.of(card, user);
     }
 }

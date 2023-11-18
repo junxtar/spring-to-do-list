@@ -9,14 +9,17 @@ import com.sparta.springtodolist.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public UserSignupResponseDto signup(UserSignupServiceRequestDto requestDto) {
         if (userRepository.existsByUsername(requestDto.getUsername())) {
             throw new ExistsUserException(ErrorCode.EXISTS_USERNAME);
