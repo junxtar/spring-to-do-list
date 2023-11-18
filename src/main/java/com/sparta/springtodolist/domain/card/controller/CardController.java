@@ -9,6 +9,7 @@ import com.sparta.springtodolist.global.secutiry.UserDetailsImpl;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +46,7 @@ public class CardController {
     UserDetailsImpl userDetails) {
         CardCreateResponseDto responseDto = cardService.createCard(requestDto.toServiceRequest(),
             userDetails.getUser());
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{cardId}")
@@ -54,5 +55,8 @@ public class CardController {
         CardResponseDto responseDto = cardService.updateCard(cardId, requestDto.toServiceRequest(), userDetails.getUser());
         return ResponseEntity.ok(responseDto);
     }
+
+//    @PutMapping("/{cardId}/complete")
+//    public ResponseEntity<>
 
 }

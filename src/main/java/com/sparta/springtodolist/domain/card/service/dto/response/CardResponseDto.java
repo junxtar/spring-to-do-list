@@ -15,14 +15,16 @@ public class CardResponseDto {
     private String title;
     private String content;
     private String username;
+    private Boolean isCompleted;
     private LocalDateTime createdAt;
 
     @Builder
-    private CardResponseDto(String title, String content, String username,
+    private CardResponseDto(String title, String content, String username, Boolean isCompleted,
         LocalDateTime createdAt) {
         this.title = title;
         this.content = content;
         this.username = username;
+        this.isCompleted = isCompleted;
         this.createdAt = createdAt;
     }
 
@@ -31,6 +33,7 @@ public class CardResponseDto {
             .title(card.getTitle())
             .content(card.getContent())
             .username(user.getUsername())
+            .isCompleted(card.getIsCompleted())
             .createdAt(user.getCreatedAt())
             .build();
     }
