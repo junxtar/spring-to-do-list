@@ -5,6 +5,7 @@ import com.sparta.springtodolist.domain.card.controller.dto.request.CardUpdateRe
 import com.sparta.springtodolist.domain.card.service.CardService;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCompletedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
+import com.sparta.springtodolist.domain.card.service.dto.response.CardPrivatedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
 import com.sparta.springtodolist.global.secutiry.UserDetailsImpl;
 import java.util.HashMap;
@@ -68,6 +69,14 @@ public class CardController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardCompletedResponseDto responseDto = cardService.updateCardCompleted(cardId,
             userDetails.getUser());
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PutMapping("/{cardId}/private")
+    public ResponseEntity<CardPrivatedResponseDto> updateCardPrivated(@PathVariable Long cardId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CardPrivatedResponseDto responseDto = cardService.updateCardPrivated(cardId, userDetails.getUser());
 
         return ResponseEntity.ok(responseDto);
     }

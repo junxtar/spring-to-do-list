@@ -51,4 +51,8 @@ public class Card extends BaseEntity {
     public void updateIsCompleted() {
         this.isCompleted = !this.isCompleted;
     }
+
+    public void updateIsPrivated() {
+        this.isPrivated = !this.isPrivated;
+    }
 }

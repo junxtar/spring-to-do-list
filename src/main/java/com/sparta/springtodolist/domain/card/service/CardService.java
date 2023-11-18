@@ -10,6 +10,7 @@ import com.sparta.springtodolist.domain.card.service.dto.request.CardCreateServi
 import com.sparta.springtodolist.domain.card.service.dto.request.CardUpdateServiceRequestDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCompletedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
+import com.sparta.springtodolist.domain.card.service.dto.response.CardPrivatedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
@@ -74,6 +75,14 @@ public class CardService {
         verifyCardOwner(user, card);
         card.updateIsCompleted();
         return CardCompletedResponseDto.of(card.getIsCompleted());
+    }
+
+    @Transactional
+    public CardPrivatedResponseDto updateCardPrivated(Long cardId, User user) {
+        Card card = verifyExistsCard(cardId);
+        verifyCardOwner(user, card);
+        card.updateIsPrivated();
+        return CardPrivatedResponseDto.of(card.getIsPrivated());
     }
 
     private Card verifyExistsCard(Long cardId) {
