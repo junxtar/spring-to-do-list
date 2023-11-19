@@ -31,6 +31,10 @@ public class CardService {
     public CardResponseDto getCard(Long cardId, User user) {
         Card card = verifyExistsCard(cardId);
 
+        if(!card.getUser().getUsername().equals(user.getUsername()) && card.getIsPrivated()) {
+            throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
+        }
+
         return CardResponseDto.of(card, user);
     }
 
