@@ -4,6 +4,7 @@ import com.sparta.springtodolist.domain.card.service.dto.request.CardUpdateServi
 import com.sparta.springtodolist.domain.comment.entity.Comment;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.util.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,7 +39,7 @@ public class Card extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
     private final List<Comment> comments = new ArrayList<>();
 
     @Builder
