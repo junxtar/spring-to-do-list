@@ -1,6 +1,7 @@
 package com.sparta.springtodolist.domain.comment.controller;
 
 import com.sparta.springtodolist.domain.comment.controller.dto.request.CommentCreateRequestDto;
+import com.sparta.springtodolist.domain.comment.controller.dto.request.CommentUpdateRequestDto;
 import com.sparta.springtodolist.domain.comment.service.CommentService;
 import com.sparta.springtodolist.domain.comment.service.dto.resopnse.CommentResponseDto;
 import com.sparta.springtodolist.global.secutiry.UserDetailsImpl;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +31,14 @@ public class CommentController {
             requestDto.toServiceRequest(), userDetails.getUser());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long commentId,
+        @RequestBody CommentUpdateRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CommentResponseDto responseDto = commentService.updateComment(commentId, requestDto.toServiceRequest(), userDetails.getUser());
+
+        return ResponseEntity.ok(responseDto);
     }
 }
