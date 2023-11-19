@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,17 +40,30 @@ public class CardController {
     }
 
     @GetMapping
-    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCardList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        HashMap<String, List<CardResponseDto>> cardMap = cardService.getCardList(userDetails.getUser());
+    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCardList(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        HashMap<String, List<CardResponseDto>> cardMap = cardService.getCardList(
+            userDetails.getUser());
 
         return ResponseEntity.ok(cardMap);
     }
 
     @GetMapping("/complete/hidden")
-    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getNotCompletedCardList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        HashMap<String, List<CardResponseDto>> cardMap = cardService.getNotCompletedCardList(userDetails.getUser());
+    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getNotCompletedCardList(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        HashMap<String, List<CardResponseDto>> cardMap = cardService.getNotCompletedCardList(
+            userDetails.getUser());
 
         return ResponseEntity.ok(cardMap);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CardResponseDto>> getSearchCardList(@RequestParam String title,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<CardResponseDto> responseDtoList = cardService.getSearchCardList(title,
+            userDetails.getUser());
+
+        return ResponseEntity.ok(responseDtoList);
     }
 
     @PostMapping
@@ -84,13 +98,15 @@ public class CardController {
     @PutMapping("/{cardId}/private")
     public ResponseEntity<CardPrivatedResponseDto> updateCardPrivated(@PathVariable Long cardId,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        CardPrivatedResponseDto responseDto = cardService.updateCardPrivated(cardId, userDetails.getUser());
+        CardPrivatedResponseDto responseDto = cardService.updateCardPrivated(cardId,
+            userDetails.getUser());
 
         return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{cardId}")
-    public ResponseEntity<Void> deleteCard(@PathVariable Long cardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<Void> deleteCard(@PathVariable Long cardId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         cardService.deleteCard(cardId, userDetails.getUser());
 
         return ResponseEntity.noContent().build();

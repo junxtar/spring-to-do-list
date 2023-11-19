@@ -57,6 +57,13 @@ public class CardService {
 
     }
 
+    public List<CardResponseDto> getSearchCardList(String title, User user) {
+        return cardRepository.findCardsByTitleContaining(title).stream()
+            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
+            .collect(Collectors.toList());
+    }
+
     @Transactional
     public CardCreateResponseDto createCard(CardCreateServiceRequestDto requestDto,
         User user) {
