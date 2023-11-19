@@ -35,7 +35,7 @@ public class CommentService {
             .user(user)
             .build();
 
-        Comment saveComment = commentRepository.save(comment);
+        Comment saveComment = commentRepository.save(comment); 
 
         return CommentResponseDto.of(saveComment);
     }
@@ -49,6 +49,14 @@ public class CommentService {
         comment.update(toServiceRequest.getContent());
 
         return CommentResponseDto.of(comment);
+    }
+
+    @Transactional
+    public void deleteComment(Long commentId, User user) {
+        Comment comment = verifyExistsComment(commentId);
+        verifyCommentOwner(user, comment);
+
+        commentRepository.delete(comment);
     }
 
     private Card verifyExistsCard(Long cardId) {
