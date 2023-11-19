@@ -34,6 +34,13 @@ public class CardService {
         return CardResponseDto.of(card, user);
     }
 
+    public HashMap<String, List<CardResponseDto>> getCardList() {
+        return cardRepository.findAllByOrderByCreatedAtDesc().stream()
+            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
+                Collectors.toList()));
+    }
+
     @Transactional
     public CardCreateResponseDto createCard(CardCreateServiceRequestDto requestDto,
         User user) {
@@ -48,13 +55,6 @@ public class CardService {
         Card saveCard = cardRepository.save(card);
 
         return CardCreateResponseDto.of(saveCard, user);
-    }
-
-    public HashMap<String, List<CardResponseDto>> getCardList() {
-        return cardRepository.findAllByOrderByCreatedAtDesc().stream()
-            .map(card -> CardResponseDto.of(card, card.getUser()))
-            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
-                Collectors.toList()));
     }
 
     @Transactional

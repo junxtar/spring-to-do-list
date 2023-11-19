@@ -5,14 +5,12 @@ import com.sparta.springtodolist.domain.user.service.UserService;
 import com.sparta.springtodolist.domain.user.service.dto.response.UserSignupResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
