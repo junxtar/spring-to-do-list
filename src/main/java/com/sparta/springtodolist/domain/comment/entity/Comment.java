@@ -1,6 +1,7 @@
 package com.sparta.springtodolist.domain.comment.entity;
 
 import com.sparta.springtodolist.domain.card.entity.Card;
+import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.util.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,11 +31,16 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "card_id")
     private Card card;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
-    private Comment(Long id, String content, Card card) {
+    private Comment(Long id, String content, Card card, User user) {
         this.id = id;
         this.content = content;
         this.card = card;
+        this.user = user;
     }
 
 }

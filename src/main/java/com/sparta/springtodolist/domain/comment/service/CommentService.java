@@ -30,6 +30,7 @@ public class CommentService {
         Comment comment = Comment.builder()
             .content(toServiceRequest.getContent())
             .card(card)
+            .user(user)
             .build();
 
         Comment saveComment = commentRepository.save(comment);
