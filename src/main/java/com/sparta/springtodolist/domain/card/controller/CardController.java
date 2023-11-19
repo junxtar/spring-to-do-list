@@ -39,15 +39,15 @@ public class CardController {
     }
 
     @GetMapping
-    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCardList() {
-        HashMap<String, List<CardResponseDto>> cardMap = cardService.getCardList();
+    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCardList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        HashMap<String, List<CardResponseDto>> cardMap = cardService.getCardList(userDetails.getUser());
 
         return ResponseEntity.ok(cardMap);
     }
 
     @GetMapping("/complete/hidden")
-    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getNotCompletedCardList() {
-        HashMap<String, List<CardResponseDto>> cardMap = cardService.getNotCompletedCardList();
+    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getNotCompletedCardList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        HashMap<String, List<CardResponseDto>> cardMap = cardService.getNotCompletedCardList(userDetails.getUser());
 
         return ResponseEntity.ok(cardMap);
     }

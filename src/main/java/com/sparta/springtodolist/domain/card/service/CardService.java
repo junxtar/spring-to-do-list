@@ -34,21 +34,23 @@ public class CardService {
         return CardResponseDto.of(card, user);
     }
 
-    public HashMap<String, List<CardResponseDto>> getCardList() {
-        return cardRepository.findAllByOrderByCreatedAtDesc().stream()
+    public HashMap<String, List<CardResponseDto>> getCardList(User user) {
+        return cardRepository.findAllByOrderByCreatedAtDesc()
+            .stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
-            .filter(card -> !card.getIsPrivated())
-            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
-                Collectors.toList()));
-    }
+            .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new, Collectors.toList()));
+        }
 
-    public HashMap<String, List<CardResponseDto>> getNotCompletedCardList() {
-        return cardRepository.findAllByOrderByCreatedAtDesc().stream()
+
+    public HashMap<String, List<CardResponseDto>> getNotCompletedCardList(User user) {
+        return cardRepository.findAllByOrderByCreatedAtDesc()
+            .stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
-            .filter(card -> !card.getIsPrivated())
+            .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
             .filter(card -> !card.getIsCompleted())
-            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
-                Collectors.toList()));
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new, Collectors.toList()));
+
     }
 
     @Transactional
