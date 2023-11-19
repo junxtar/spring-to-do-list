@@ -37,6 +37,7 @@ public class CardService {
     public HashMap<String, List<CardResponseDto>> getCardList() {
         return cardRepository.findAllByOrderByCreatedAtDesc().stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
+            .filter(card -> !card.getIsPrivated())
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
                 Collectors.toList()));
     }
