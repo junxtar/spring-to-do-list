@@ -45,6 +45,13 @@ public class CardController {
         return ResponseEntity.ok(cardMap);
     }
 
+    @GetMapping("/complete/hidden")
+    public ResponseEntity<HashMap<String, List<CardResponseDto>>> getNotCompletedCardList() {
+        HashMap<String, List<CardResponseDto>> cardMap = cardService.getNotCompletedCardList();
+
+        return ResponseEntity.ok(cardMap);
+    }
+
     @PostMapping
     public ResponseEntity<CardCreateResponseDto> createCard(
         @RequestBody CardCreateRequestDto requestDto, @AuthenticationPrincipal

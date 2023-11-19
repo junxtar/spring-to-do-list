@@ -42,6 +42,15 @@ public class CardService {
                 Collectors.toList()));
     }
 
+    public HashMap<String, List<CardResponseDto>> getNotCompletedCardList() {
+        return cardRepository.findAllByOrderByCreatedAtDesc().stream()
+            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .filter(card -> !card.getIsPrivated())
+            .filter(card -> !card.getIsCompleted())
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
+                Collectors.toList()));
+    }
+
     @Transactional
     public CardCreateResponseDto createCard(CardCreateServiceRequestDto requestDto,
         User user) {
