@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -86,7 +87,7 @@ public class CardController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PutMapping("/{cardId}/complete")
+    @PatchMapping("/{cardId}/complete")
     public ResponseEntity<CardCompletedResponseDto> updateCardCompleted(@PathVariable Long cardId,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardCompletedResponseDto responseDto = cardService.updateCardCompleted(cardId,
@@ -95,7 +96,7 @@ public class CardController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PutMapping("/{cardId}/private")
+    @PatchMapping("/{cardId}/private")
     public ResponseEntity<CardPrivatedResponseDto> updateCardPrivated(@PathVariable Long cardId,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardPrivatedResponseDto responseDto = cardService.updateCardPrivated(cardId,
