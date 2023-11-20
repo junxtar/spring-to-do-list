@@ -7,6 +7,7 @@ import com.sparta.springtodolist.domain.card.service.dto.response.CardCompletedR
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardPrivatedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
+import com.sparta.springtodolist.domain.card.service.dto.response.SingleCardResponseDto;
 import com.sparta.springtodolist.global.secutiry.UserDetailsImpl;
 import java.util.HashMap;
 import java.util.List;
@@ -33,9 +34,9 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping("/{cardId}")
-    public ResponseEntity<CardResponseDto> getCard(@PathVariable Long cardId,
+    public ResponseEntity<SingleCardResponseDto> getCard(@PathVariable Long cardId,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        CardResponseDto responseDto = cardService.getCard(cardId, userDetails.getUser());
+        SingleCardResponseDto responseDto = cardService.getCard(cardId, userDetails.getUser());
 
         return ResponseEntity.ok(responseDto);
     }

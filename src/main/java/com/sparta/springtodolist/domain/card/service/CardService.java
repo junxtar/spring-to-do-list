@@ -12,6 +12,8 @@ import com.sparta.springtodolist.domain.card.service.dto.response.CardCompletedR
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardPrivatedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
+import com.sparta.springtodolist.domain.card.service.dto.response.SingleCardResponseDto;
+import com.sparta.springtodolist.domain.comment.service.dto.resopnse.CommentResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
 import java.util.HashMap;
@@ -28,14 +30,16 @@ public class CardService {
 
     private final CardRepository cardRepository;
 
-    public CardResponseDto getCard(Long cardId, User user) {
+    public SingleCardResponseDto getCard(Long cardId, User user) {
         Card card = verifyExistsCard(cardId);
-
-        if(!card.getUser().getUsername().equals(user.getUsername()) && card.getIsPrivated()) {
+        if (!card.getUser().getUsername().equals(user.getUsername()) && card.getIsPrivated()) {
             throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
         }
+        List<CommentResponseDto> commentList = card.getComments().stream()
+            .map(CommentResponseDto::of).collect(
+                Collectors.toList());
 
-        return CardResponseDto.of(card, user);
+        return SingleCardResponseDto.of(card, user, commentList);
     }
 
     public HashMap<String, List<CardResponseDto>> getCardList(User user) {
@@ -43,8 +47,9 @@ public class CardService {
             .stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
             .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
-            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new, Collectors.toList()));
-        }
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
+                Collectors.toList()));
+    }
 
 
     public HashMap<String, List<CardResponseDto>> getNotCompletedCardList(User user) {
@@ -53,7 +58,8 @@ public class CardService {
             .map(card -> CardResponseDto.of(card, card.getUser()))
             .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
             .filter(card -> !card.getIsCompleted())
-            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new, Collectors.toList()));
+            .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
+                Collectors.toList()));
 
     }
 
