@@ -40,10 +40,11 @@ public class Card extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
-    private final List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
     @Builder
-    private Card(String title, String content, Boolean isCompleted, Boolean isPrivated, User user) {
+    private Card(Long id, String title, String content, Boolean isCompleted, Boolean isPrivated, User user) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.isCompleted = isCompleted;
@@ -62,5 +63,12 @@ public class Card extends BaseEntity {
 
     public void updateIsPrivated() {
         this.isPrivated = !this.isPrivated;
+    }
+
+    public List<Comment> getComments() {
+        if (comments.size() == 0) {
+            comments = new ArrayList<>();
+        }
+        return comments;
     }
 }
