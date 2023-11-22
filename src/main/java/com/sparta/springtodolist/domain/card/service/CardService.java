@@ -122,6 +122,11 @@ public class CardService {
         cardRepository.delete(card);
     }
 
+    @Transactional
+    public void deleteByUserId(Long userId) {
+        cardRepository.deleteAllByUser_Id(userId);
+    }
+
     private Card verifyExistsCard(Long cardId) {
         return cardRepository.findById(cardId)
             .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
