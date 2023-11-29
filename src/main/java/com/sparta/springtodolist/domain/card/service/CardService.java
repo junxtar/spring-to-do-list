@@ -32,7 +32,7 @@ public class CardService {
 
     public SingleCardResponseDto getCard(Long cardId, User user) {
         Card card = verifyExistsCard(cardId);
-        if (!card.getUser().getUsername().equals(user.getUsername()) && card.getIsPrivated()) {
+        if (!card.getUser().getUsername().equals(user.getUsername()) && card.getIsPublic()) {
             throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
         }
         List<CommentResponseDto> commentList = card.getComments().stream()
@@ -46,7 +46,7 @@ public class CardService {
         return cardRepository.findAllByOrderByCreatedAtDesc()
             .stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
-            .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
+            .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
                 Collectors.toList()));
     }
@@ -56,7 +56,7 @@ public class CardService {
         return cardRepository.findAllByOrderByCreatedAtDesc()
             .stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
-            .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
+            .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
             .filter(card -> !card.getIsCompleted())
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
                 Collectors.toList()));
@@ -66,7 +66,7 @@ public class CardService {
     public List<CardResponseDto> getSearchCardList(String title, User user) {
         return cardRepository.findCardsByTitleContaining(title).stream()
             .map(card -> CardResponseDto.of(card, card.getUser()))
-            .filter(dto -> dto.getUsername().equals(user.getUsername()) || !dto.getIsPrivated())
+            .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
             .collect(Collectors.toList());
     }
 
@@ -77,7 +77,7 @@ public class CardService {
             .content(requestDto.getContent())
             .title(requestDto.getTitle())
             .isCompleted(DEFAULT_COMPLETE_VALUE)
-            .isPrivated(requestDto.getIsPrivated())
+            .isPublic(requestDto.getIsPublic())
             .user(user)
             .build();
 
@@ -111,7 +111,7 @@ public class CardService {
         Card card = verifyExistsCard(cardId);
         verifyCardOwner(user, card);
         card.updateIsPrivated();
-        return CardPrivatedResponseDto.of(card.getIsPrivated());
+        return CardPrivatedResponseDto.of(card.getIsPublic());
     }
 
     @Transactional

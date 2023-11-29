@@ -16,17 +16,17 @@ public class CardResponseDto {
     private String content;
     private String username;
     private Boolean isCompleted;
-    private Boolean isPrivated;
+    private Boolean isPublic;
     private LocalDateTime createdAt;
 
     @Builder
-    private CardResponseDto(String title, String content, String username, Boolean isCompleted, Boolean isPrivated,
+    private CardResponseDto(String title, String content, String username, Boolean isCompleted, Boolean isPublic,
         LocalDateTime createdAt) {
         this.title = title;
         this.content = content;
         this.username = username;
         this.isCompleted = isCompleted;
-        this.isPrivated = isPrivated;
+        this.isPublic = isPublic;
         this.createdAt = createdAt;
     }
 
@@ -36,7 +36,7 @@ public class CardResponseDto {
             .content(card.getContent())
             .username(user.getUsername())
             .isCompleted(card.getIsCompleted())
-            .isPrivated(card.getIsPrivated())
+            .isPublic(card.getIsPublic())
             .createdAt(user.getCreatedAt())
             .build();
     }

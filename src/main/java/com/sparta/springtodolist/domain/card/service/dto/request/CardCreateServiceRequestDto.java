@@ -12,13 +12,13 @@ public class CardCreateServiceRequestDto {
     private String title;
     private String content;
     private Boolean isCompleted;
-    private Boolean isPrivated;
+    private Boolean isPublic;
 
     @Builder
-    private CardCreateServiceRequestDto(String title, String content, Boolean isCompleted, Boolean isPrivated) {
+    private CardCreateServiceRequestDto(String title, String content, Boolean isCompleted, Boolean isPublic) {
         this.title = title;
         this.content = content;
         this.isCompleted = isCompleted;
-        this.isPrivated = isPrivated;
+        this.isPublic = isPublic;
     }
 }

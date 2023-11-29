@@ -18,19 +18,19 @@ public class SingleCardResponseDto {
     private String content;
     private String username;
     private Boolean isCompleted;
-    private Boolean isPrivated;
+    private Boolean isPublic;
     private List<CommentResponseDto> commentList;
     private LocalDateTime createdAt;
 
     @Builder
     private SingleCardResponseDto(String title, String content, String username,
         Boolean isCompleted,
-        Boolean isPrivated, List<CommentResponseDto> commentList, LocalDateTime createdAt) {
+        Boolean isPublic, List<CommentResponseDto> commentList, LocalDateTime createdAt) {
         this.title = title;
         this.content = content;
         this.username = username;
         this.isCompleted = isCompleted;
-        this.isPrivated = isPrivated;
+        this.isPublic = isPublic;
         this.commentList = commentList;
         this.createdAt = createdAt;
     }
@@ -41,7 +41,7 @@ public class SingleCardResponseDto {
             .content(card.getContent())
             .username(user.getUsername())
             .isCompleted(card.getIsCompleted())
-            .isPrivated(card.getIsPrivated())
+            .isPublic(card.getIsPublic())
             .commentList(commentList)
             .createdAt(user.getCreatedAt())
             .build();

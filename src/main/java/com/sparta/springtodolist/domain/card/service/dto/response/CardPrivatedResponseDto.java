@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CardPrivatedResponseDto {
 
-    private Boolean isPrivated;
+    private Boolean isPublic;
 
     @Builder
-    private CardPrivatedResponseDto(Boolean isPrivated) {
-        this.isPrivated = isPrivated;
+    private CardPrivatedResponseDto(Boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
-    public static CardPrivatedResponseDto of(Boolean isPrivated) {
+    public static CardPrivatedResponseDto of(Boolean isPublic) {
         return CardPrivatedResponseDto.builder()
-            .isPrivated(isPrivated)
+            .isPublic(isPublic)
             .build();
     }
 }

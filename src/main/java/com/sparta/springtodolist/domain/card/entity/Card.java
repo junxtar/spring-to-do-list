@@ -33,7 +33,7 @@ public class Card extends BaseEntity {
     private String title;
     private String content;
     private Boolean isCompleted;
-    private Boolean isPrivated;
+    private Boolean isPublic;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -43,11 +43,11 @@ public class Card extends BaseEntity {
     private List<Comment> comments;
 
     @Builder
-    private Card( String title, String content, Boolean isCompleted, Boolean isPrivated, User user) {
+    private Card( String title, String content, Boolean isCompleted, Boolean isPublic, User user) {
         this.title = title;
         this.content = content;
         this.isCompleted = isCompleted;
-        this.isPrivated = isPrivated;
+        this.isPublic = isPublic;
         this.user = user;
     }
 
@@ -61,7 +61,7 @@ public class Card extends BaseEntity {
     }
 
     public void updateIsPrivated() {
-        this.isPrivated = !this.isPrivated;
+        this.isPublic = !this.isPublic;
     }
 
     public List<Comment> getComments() {
