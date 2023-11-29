@@ -43,8 +43,7 @@ public class Card extends BaseEntity {
     private List<Comment> comments;
 
     @Builder
-    private Card(Long id, String title, String content, Boolean isCompleted, Boolean isPrivated, User user) {
-        this.id = id;
+    private Card( String title, String content, Boolean isCompleted, Boolean isPrivated, User user) {
         this.title = title;
         this.content = content;
         this.isCompleted = isCompleted;
