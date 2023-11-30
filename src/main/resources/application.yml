@@ -4,6 +4,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+jwt:
+ secret:
+    key: 7LWc7KSA7JiB7J6F64uI64ukLuy1nOykgOyYgeyeheuLiOuLpC4=
 ---
 spring:
   config:
@@ -25,10 +29,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-jwt:
-  secret:
-    key: 7LWc7KSA7JiB7J6F64uI64ukLuy1nOykgOyYgeyeheuLiOuLpC4=
-
 ---
 spring:
   config:
@@ -44,7 +44,7 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:h2:mem:~/test
+    url: jdbc:h2:mem:~/todolist
     driver-class-name: org.h2.Driver
     username: sa
     password:
