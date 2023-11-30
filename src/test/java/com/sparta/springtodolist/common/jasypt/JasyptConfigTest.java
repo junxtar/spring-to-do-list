@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.jasypt;
+package com.sparta.springtodolist.common.jasypt;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.junit.jupiter.api.Assertions;
