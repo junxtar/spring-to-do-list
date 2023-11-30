@@ -4,9 +4,7 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 public class RegexTest {
 
     static final String USER_NAME_REGEXP = "^[a-z0-9]{4,10}$";

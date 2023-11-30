@@ -10,13 +10,13 @@ public class CardCreateRequestDto {
 
     private String title;
     private String content;
-    private Boolean isPrivated;
+    private Boolean isPublic;
 
     public CardCreateServiceRequestDto toServiceRequest() {
         return CardCreateServiceRequestDto.builder()
             .title(title)
             .content(content)
-            .isPrivated(isPrivated)
+            .isPublic(isPublic)
             .build();
     }
 }
