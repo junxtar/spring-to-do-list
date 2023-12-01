@@ -7,7 +7,6 @@ import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.domain.user.exception.ExistsUserException;
 import com.sparta.springtodolist.global.exception.ErrorCode;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,6 @@ class UserRepositoryTest extends RepositoryTestSupport {
 
     @Autowired
     private UserRepository userRepository;
-
-    @AfterEach
-    void tearDown() {
-        userRepository.deleteAllInBatch();
-    }
 
     @DisplayName("사용자의 이름이 존재하는지 검증한다.")
     @Test
