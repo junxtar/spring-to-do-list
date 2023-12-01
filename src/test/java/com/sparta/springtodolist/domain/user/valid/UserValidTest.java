@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.domain.user.regex;
+package com.sparta.springtodolist.domain.user.valid;
 
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.Assertions;
