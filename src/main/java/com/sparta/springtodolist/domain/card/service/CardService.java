@@ -93,7 +93,7 @@ public class CardService {
 
         verifyCardOwner(user, card);
 
-        card.update(toServiceRequest);
+        card.update(toServiceRequest.getTitle(), toServiceRequest.getContent());
 
         return CardResponseDto.of(card);
     }

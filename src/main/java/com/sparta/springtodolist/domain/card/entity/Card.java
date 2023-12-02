@@ -1,6 +1,5 @@
 package com.sparta.springtodolist.domain.card.entity;
 
-import com.sparta.springtodolist.domain.card.service.dto.request.CardUpdateServiceRequestDto;
 import com.sparta.springtodolist.domain.comment.entity.Comment;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.util.BaseEntity;
@@ -52,9 +51,9 @@ public class Card extends BaseEntity {
         this.user = user;
     }
 
-    public void update(CardUpdateServiceRequestDto toServiceRequest) {
-        this.title = toServiceRequest.getTitle();
-        this.content = toServiceRequest.getContent();
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     public void updateIsCompleted() {
