@@ -127,7 +127,7 @@ public class CardService {
         cardRepository.deleteAllByUser_Id(userId);
     }
 
-    private Card verifyExistsCard(Long cardId) {
+    public Card verifyExistsCard(Long cardId) {
         return cardRepository.findById(cardId)
             .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
     }

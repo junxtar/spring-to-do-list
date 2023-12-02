@@ -1,8 +1,7 @@
 package com.sparta.springtodolist.domain.comment.service;
 
 import com.sparta.springtodolist.domain.card.entity.Card;
-import com.sparta.springtodolist.domain.card.exception.CardNotFoundException;
-import com.sparta.springtodolist.domain.card.repository.CardRepository;
+import com.sparta.springtodolist.domain.card.service.CardService;
 import com.sparta.springtodolist.domain.comment.entity.Comment;
 import com.sparta.springtodolist.domain.comment.exception.CommentNotAccessException;
 import com.sparta.springtodolist.domain.comment.exception.CommentNotFoundException;
@@ -22,12 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final CardRepository cardRepository;
+    private final CardService cardService;
 
     @Transactional
     public CommentResponseDto createComment(Long cardId,
         CommentCreateServiceRequestDto toServiceRequest, User user) {
-        Card card = verifyExistsCard(cardId);
+        Card card = cardService.verifyExistsCard(cardId);
 
         Comment comment = Comment.builder()
             .content(toServiceRequest.getContent())
@@ -57,11 +56,6 @@ public class CommentService {
         verifyCommentOwner(user, comment);
 
         commentRepository.delete(comment);
-    }
-
-    private Card verifyExistsCard(Long cardId) {
-        return cardRepository.findById(cardId)
-            .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
     }
 
     private Comment verifyExistsComment(Long commentId) {
