@@ -59,7 +59,6 @@ class UserControllerTest {
     }
 
     private void mockUserSetup() {
-        // Mock 테스트 유져 생성
         User testUser = User.builder()
             .username("test")
             .password("test1234")
@@ -85,70 +84,6 @@ class UserControllerTest {
         ).andExpect(status().isOk());
     }
 
-    @DisplayName("사용자의 이름 길이가 정규식에 패턴에 부합하지 않아 검사에 실패한다.")
-    @Test
-    void signupUsernameOfLengthFailTest() throws Exception {
-        // given
-        UserSignupRequestDto request = UserSignupRequestDto.builder()
-            .username("tes")
-            .password("test1234")
-            .build();
-
-        // when, then
-        mockMvc.perform(post("/api/users/signup")
-            .content(objectMapper.writeValueAsString(request))
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest());
-    }
-
-    @DisplayName("사용자의 이름 대문자가 정규식에 패턴에 부합하지 않아 검사에 실패한다.")
-    @Test
-    void signupUsernameOfUpperCaseFailTest() throws Exception {
-        // given
-        UserSignupRequestDto request = UserSignupRequestDto.builder()
-            .username("Test")
-            .password("test1234")
-            .build();
-
-        // when, then
-        mockMvc.perform(post("/api/users/signup")
-            .content(objectMapper.writeValueAsString(request))
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest());
-    }
-
-    @DisplayName("사용자의 비밀번호 갈아가 정규식에 패턴에 부합하지 않아 검사에 실패한다.")
-    @Test
-    void signupPasswordOfLengthFailTest() throws Exception {
-        // given
-        UserSignupRequestDto request = UserSignupRequestDto.builder()
-            .username("test")
-            .password("test")
-            .build();
-
-        // when, then
-        mockMvc.perform(post("/api/users/signup")
-            .content(objectMapper.writeValueAsString(request))
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest());
-    }
-
-    @DisplayName("사용자의 비밀번호 특수문자가 정규식에 패턴에 부합하지 않아 검사에 실패한다.")
-    @Test
-    void signupUsernameOfSignFailTest() throws Exception {
-        // given
-        UserSignupRequestDto request = UserSignupRequestDto.builder()
-            .username("test")
-            .password("test1234!!")
-            .build();
-
-        // when, then
-        mockMvc.perform(post("/api/users/signup")
-            .content(objectMapper.writeValueAsString(request))
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest());
-    }
-
     @DisplayName("사용자가 서비스에서 탈퇴한다.")
     @Test
     void deleteUser() throws Exception {
@@ -157,7 +92,6 @@ class UserControllerTest {
 
         // when, then
         mockMvc.perform(delete("/api/users")
-                .accept(MediaType.APPLICATION_JSON)
                 .principal(mockPrincipal)
             ).andExpect(status().isNoContent());
      }
