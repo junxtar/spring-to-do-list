@@ -2,7 +2,6 @@ package com.sparta.springtodolist.domain.card.service.dto.response;
 
 import com.sparta.springtodolist.domain.card.entity.Card;
 import com.sparta.springtodolist.domain.comment.service.dto.resopnse.CommentResponseDto;
-import com.sparta.springtodolist.domain.user.entity.User;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -35,15 +34,15 @@ public class SingleCardResponseDto {
         this.createdAt = createdAt;
     }
 
-    public static SingleCardResponseDto of(Card card, User user, List<CommentResponseDto> commentList) {
+    public static SingleCardResponseDto of(Card card, List<CommentResponseDto> commentList) {
         return SingleCardResponseDto.builder()
             .title(card.getTitle())
             .content(card.getContent())
-            .username(user.getUsername())
+            .username(card.getUser().getUsername())
             .isCompleted(card.getIsCompleted())
             .isPublic(card.getIsPublic())
             .commentList(commentList)
-            .createdAt(user.getCreatedAt())
+            .createdAt(card.getCreatedAt())
             .build();
     }
 }

@@ -1,7 +1,6 @@
 package com.sparta.springtodolist.domain.card.service.dto.response;
 
 import com.sparta.springtodolist.domain.card.entity.Card;
-import com.sparta.springtodolist.domain.user.entity.User;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,14 +29,14 @@ public class CardResponseDto {
         this.createdAt = createdAt;
     }
 
-    public static CardResponseDto of(Card card, User user) {
+    public static CardResponseDto of(Card card) {
         return CardResponseDto.builder()
             .title(card.getTitle())
             .content(card.getContent())
-            .username(user.getUsername())
+            .username(card.getUser().getUsername())
             .isCompleted(card.getIsCompleted())
             .isPublic(card.getIsPublic())
-            .createdAt(user.getCreatedAt())
+            .createdAt(card.getCreatedAt())
             .build();
     }
 }

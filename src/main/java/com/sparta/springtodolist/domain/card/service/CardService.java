@@ -32,20 +32,20 @@ public class CardService {
 
     public SingleCardResponseDto getCard(Long cardId, User user) {
         Card card = verifyExistsCard(cardId);
-        if (!card.getUser().getUsername().equals(user.getUsername()) && card.getIsPublic()) {
+        if (!card.getUser().getUsername().equals(user.getUsername()) && !card.getIsPublic()) {
             throw new CardNotAccessException(ErrorCode.CARD_NOT_ACCESS);
         }
         List<CommentResponseDto> commentList = card.getComments().stream()
             .map(CommentResponseDto::of).collect(
                 Collectors.toList());
 
-        return SingleCardResponseDto.of(card, user, commentList);
+        return SingleCardResponseDto.of(card, commentList);
     }
 
     public HashMap<String, List<CardResponseDto>> getCardList(User user) {
         return cardRepository.findAllByOrderByCreatedAtDesc()
             .stream()
-            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .map(CardResponseDto::of)
             .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
                 Collectors.toList()));
@@ -55,7 +55,7 @@ public class CardService {
     public HashMap<String, List<CardResponseDto>> getNotCompletedCardList(User user) {
         return cardRepository.findAllByOrderByCreatedAtDesc()
             .stream()
-            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .map(CardResponseDto::of)
             .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
             .filter(card -> !card.getIsCompleted())
             .collect(Collectors.groupingBy(CardResponseDto::getUsername, HashMap::new,
@@ -65,7 +65,7 @@ public class CardService {
 
     public List<CardResponseDto> getSearchCardList(String title, User user) {
         return cardRepository.findCardsByTitleContaining(title).stream()
-            .map(card -> CardResponseDto.of(card, card.getUser()))
+            .map(CardResponseDto::of)
             .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
             .collect(Collectors.toList());
     }
@@ -95,7 +95,7 @@ public class CardService {
 
         card.update(toServiceRequest);
 
-        return CardResponseDto.of(card, user);
+        return CardResponseDto.of(card);
     }
 
     @Transactional
