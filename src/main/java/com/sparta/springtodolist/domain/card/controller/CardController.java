@@ -97,8 +97,8 @@ public class CardController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PatchMapping("/{cardId}/private")
-    public ResponseEntity<CardPrivatedResponseDto> updateCardPrivated(@PathVariable Long cardId,
+    @PatchMapping("/{cardId}/public")
+    public ResponseEntity<CardPrivatedResponseDto> updateCardPublic(@PathVariable Long cardId,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardPrivatedResponseDto responseDto = cardService.updateCardPublic(cardId,
             userDetails.getUser());
