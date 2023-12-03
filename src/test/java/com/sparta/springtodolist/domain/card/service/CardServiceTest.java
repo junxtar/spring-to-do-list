@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,25 +43,42 @@ class CardServiceTest {
     @InjectMocks
     private CardService cardService;
 
-    private User user1, user2;
 
-    private Card card1, card2;
+    @DisplayName("존재하지 않는 카드를 조회한다.")
+    @Test
+    void getExistsCard() {
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+        Long testId = 1L;
 
-    @BeforeEach
-    void setUp() {
-        user1 = User.builder()
+        // given
+        given(cardRepository.findById(anyLong())).willReturn(
+            Optional.empty());
+
+        // when, then
+        Assertions.assertThatThrownBy(() -> cardService.getCard(testId, user1)).isInstanceOf(
+            CardNotFoundException.class).hasMessage(ErrorCode.CARD_NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("해당 카드를 가지지 않는 유저가 비공개 카드를 조회한다.")
+    @Test
+    void getNotAccessCard() {
+        User user1 = User.builder()
             .id(1L)
             .username("test1")
             .password("test1234")
             .build();
 
-        user2 = User.builder()
+        User user2 = User.builder()
             .id(2L)
             .username("test2")
             .password("test1234")
             .build();
 
-        card1 = Card.builder()
+        Card card1 = Card.builder()
             .id(1L)
             .title("test1")
             .content("testContent1")
@@ -71,36 +87,13 @@ class CardServiceTest {
             .isPublic(false)
             .build();
 
-        card2 = Card.builder()
-            .id(2L)
-            .title("test2")
-            .content("testContent2")
-            .user(user2)
-            .isCompleted(true)
-            .isPublic(true)
-            .build();
-    }
+        Long testId = 1L;
 
-    @DisplayName("존재하지 않는 카드를 조회한다.")
-    @Test
-    void getExistsCard() {
-        // given
-        given(cardRepository.findById(anyLong())).willReturn(
-            Optional.empty());
-
-        // when, then
-        Assertions.assertThatThrownBy(() -> cardService.getCard(1L, user1)).isInstanceOf(
-            CardNotFoundException.class).hasMessage(ErrorCode.CARD_NOT_FOUND.getMessage());
-    }
-
-    @DisplayName("해당 카드를 가지지 않는 유저가 비공개 카드를 조회한다.")
-    @Test
-    void getNotAccessCard() {
         // given
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
 
         // when, then
-        Assertions.assertThatThrownBy(() -> cardService.getCard(1L, user2)).isInstanceOf(
+        Assertions.assertThatThrownBy(() -> cardService.getCard(testId, user2)).isInstanceOf(
             CardNotAccessException.class).hasMessage(ErrorCode.CARD_NOT_ACCESS.getMessage());
     }
 
@@ -108,10 +101,27 @@ class CardServiceTest {
     @Test
     void getCard() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Long testId = 1L;
+
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
 
         // when
-        SingleCardResponseDto actual = cardService.getCard(1L, user1);
+        SingleCardResponseDto actual = cardService.getCard(testId, user1);
 
         // then
         assertThat(actual).extracting("title", "content", "isCompleted", "isPublic")
@@ -122,6 +132,36 @@ class CardServiceTest {
     @Test
     void getCardList() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        User user2 = User.builder()
+            .id(2L)
+            .username("test2")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Card card2 = Card.builder()
+            .id(2L)
+            .title("test2")
+            .content("testContent2")
+            .user(user2)
+            .isCompleted(true)
+            .isPublic(true)
+            .build();
+
         given(cardRepository.findAllByOrderByCreatedAtDesc()).willReturn(List.of(card1, card2));
 
         // when
@@ -139,6 +179,36 @@ class CardServiceTest {
     @Test
     void getNotPublicCardList() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        User user2 = User.builder()
+            .id(2L)
+            .username("test2")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Card card2 = Card.builder()
+            .id(2L)
+            .title("test2")
+            .content("testContent2")
+            .user(user2)
+            .isCompleted(true)
+            .isPublic(true)
+            .build();
+
         given(cardRepository.findAllByOrderByCreatedAtDesc()).willReturn(List.of(card1, card2));
 
         // when
@@ -157,6 +227,36 @@ class CardServiceTest {
     @Test
     void getNotCompletedCardList() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        User user2 = User.builder()
+            .id(2L)
+            .username("test2")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Card card2 = Card.builder()
+            .id(2L)
+            .title("test2")
+            .content("testContent2")
+            .user(user2)
+            .isCompleted(true)
+            .isPublic(true)
+            .build();
+
         given(cardRepository.findAllByOrderByCreatedAtDesc()).willReturn(List.of(card1, card2));
 
         // when
@@ -176,6 +276,36 @@ class CardServiceTest {
     @Test
     void getSearchCardList() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        User user2 = User.builder()
+            .id(2L)
+            .username("test2")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Card card2 = Card.builder()
+            .id(2L)
+            .title("test2")
+            .content("testContent2")
+            .user(user2)
+            .isCompleted(true)
+            .isPublic(true)
+            .build();
+
         given(cardRepository.findCardsByTitleContaining(anyString())).willReturn(
             List.of(card1, card2));
 
@@ -196,6 +326,12 @@ class CardServiceTest {
     @Test
     void createCard() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
         CardCreateRequestDto request = CardCreateRequestDto.builder()
             .title("test3")
             .content("testContent3")
@@ -220,14 +356,31 @@ class CardServiceTest {
     @Test
     void updateCard() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
         CardUpdateRequestDto requestDto = CardUpdateRequestDto.builder()
             .title("update1")
             .content("updateContent1")
             .build();
 
+        Long testId = 1L;
+
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
         // when
-        CardResponseDto actual = cardService.updateCard(1L, requestDto.toServiceRequest(),
+        CardResponseDto actual = cardService.updateCard(testId, requestDto.toServiceRequest(),
             user1);
         // then
         assertThat(actual).extracting("title", "content")
@@ -238,14 +391,38 @@ class CardServiceTest {
     @Test
     void updateSomeoneElseCard() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        User user2 = User.builder()
+            .id(2L)
+            .username("test2")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+
         CardUpdateRequestDto requestDto = CardUpdateRequestDto.builder()
             .title("update1")
             .content("updateContent1")
             .build();
 
+        Long testId = 1L;
+
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
         // when, then
-        assertThatThrownBy(() -> cardService.updateCard(1L, requestDto.toServiceRequest(), user2))
+        assertThatThrownBy(() -> cardService.updateCard(testId, requestDto.toServiceRequest(), user2))
             .isInstanceOf(CardNotAccessException.class)
             .hasMessage(ErrorCode.CARD_NOT_ACCESS.getMessage());
     }
@@ -254,10 +431,27 @@ class CardServiceTest {
     @Test
     void updateCardCompleted() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Long testId = 1L;
+
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
 
         // when
-        CardCompletedResponseDto actual = cardService.updateCardCompleted(1L, user1);
+        CardCompletedResponseDto actual = cardService.updateCardCompleted(testId, user1);
 
         // then
         assertThat(actual.getIsCompleted()).isTrue();
@@ -267,10 +461,27 @@ class CardServiceTest {
     @Test
     void updateCardPublic() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Long testId = 1L;
+
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
 
         // when
-        CardPrivatedResponseDto actual = cardService.updateCardPublic(1L, user1);
+        CardPrivatedResponseDto actual = cardService.updateCardPublic(testId, user1);
 
         // then
         assertThat(actual.getIsPublic()).isTrue();
@@ -280,10 +491,27 @@ class CardServiceTest {
     @Test
     void deleteCard() {
         // given
+        User user1 = User.builder()
+            .id(1L)
+            .username("test1")
+            .password("test1234")
+            .build();
+
+        Card card1 = Card.builder()
+            .id(1L)
+            .title("test1")
+            .content("testContent1")
+            .user(user1)
+            .isCompleted(false)
+            .isPublic(false)
+            .build();
+
+        Long testId = 1L;
+
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
 
         // when
-        cardService.deleteCard(1L, user1);
+        cardService.deleteCard(testId, user1);
 
         // then
         verify(cardRepository, times(1)).delete(any(Card.class));
@@ -293,9 +521,10 @@ class CardServiceTest {
      @Test
      void deleteByUserId() {
          // given
+         Long testId = 1L;
 
          // when
-         cardService.deleteByUserId(1L);
+         cardService.deleteByUserId(testId);
 
          // then
          verify(cardRepository, times(1)).deleteAllByUser_Id(anyLong());
