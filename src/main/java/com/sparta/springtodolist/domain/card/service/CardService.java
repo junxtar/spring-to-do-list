@@ -110,7 +110,7 @@ public class CardService {
     public CardPrivatedResponseDto updateCardPublic(Long cardId, User user) {
         Card card = verifyExistsCard(cardId);
         verifyCardOwner(user, card);
-        card.updateIsPrivated();
+        card.updateIsPublic();
         return CardPrivatedResponseDto.of(card.getIsPublic());
     }
 
