@@ -42,7 +42,7 @@ class CommentServiceTest {
 
     private User user, user2;
     private Card card;
-    private Comment comment1, comment2;
+    private Comment comment1;
 
     @BeforeEach
     void setUp() {
@@ -74,10 +74,6 @@ class CommentServiceTest {
             .user(user)
             .build();
 
-        comment2 = Comment.builder()
-            .id(2L)
-            .content("test2")
-            .build();
     }
 
     @DisplayName("댓글을 생성한다.")
