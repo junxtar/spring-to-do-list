@@ -39,7 +39,7 @@ public class Card extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
-    private final List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     private Card(Long id, String title, String content, Boolean isCompleted, Boolean isPublic, User user) {
