@@ -3,6 +3,10 @@
 
 ![스크린샷 2023-12-03 17 56 56](https://github.com/junxtar/spring-to-do-list/assets/75934088/861b9aca-b901-4f87-9d48-676e67a84098)
 
+<br>
+
+<img width="1143" alt="스크린샷 2023-12-04 10 23 33" src="https://github.com/junxtar/spring-to-do-list/assets/75934088/92bcb951-92ab-4b5a-b1d8-b378968f3948">
+
 ## ERD
 <img width="877" alt="스크린샷 2023-11-13 15 16 54" src="https://github.com/junxtar/spring-to-do-list/assets/75934088/58a52c75-e1ff-400e-804d-e4bddc78d9d2">
 
