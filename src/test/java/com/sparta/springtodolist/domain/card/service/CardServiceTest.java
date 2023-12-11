@@ -33,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class CardServiceTest {
@@ -47,6 +48,7 @@ class CardServiceTest {
     @DisplayName("존재하지 않는 카드를 조회한다.")
     @Test
     void getExistsCard() {
+        // given
         User user1 = User.builder()
             .id(1L)
             .username("test1")
@@ -54,7 +56,6 @@ class CardServiceTest {
             .build();
         Long testId = 1L;
 
-        // given
         given(cardRepository.findById(anyLong())).willReturn(
             Optional.empty());
 
@@ -66,11 +67,13 @@ class CardServiceTest {
     @DisplayName("해당 카드를 가지지 않는 유저가 비공개 카드를 조회한다.")
     @Test
     void getNotAccessCard() {
+        // given
         User user1 = User.builder()
-            .id(1L)
             .username("test1")
             .password("test1234")
             .build();
+
+        ReflectionTestUtils.setField(user1, "id", 1L);
 
         User user2 = User.builder()
             .id(2L)
@@ -89,7 +92,6 @@ class CardServiceTest {
 
         Long testId = 1L;
 
-        // given
         given(cardRepository.findById(anyLong())).willReturn(Optional.ofNullable(card1));
 
         // when, then
