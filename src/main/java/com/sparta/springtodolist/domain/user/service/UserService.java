@@ -34,6 +34,12 @@ public class UserService {
         return UserSignupResponseDto.of(saveUser);
     }
 
+    public void nameCheck(String username) {
+        if (userRepository.existsByUsername(username)) {
+            throw new ExistsUserException(ErrorCode.EXISTS_USERNAME);
+        }
+    }
+
     @Transactional
     public void deleteUser(User user) {
         if (!userRepository.existsById(user.getId())) {

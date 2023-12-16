@@ -84,6 +84,19 @@ class UserServiceTest {
         ).hasMessage(ErrorCode.EXISTS_USERNAME.getMessage());
     }
 
+    @DisplayName("존재하는 유저 이름을 체크한다.")
+    @Test
+    void nameCheckTest() {
+        // given
+        given(userRepository.existsByUsername(anyString())).willReturn(true);
+        String username = "test";
+
+        // when, then
+        assertThatThrownBy(() -> userService.nameCheck(username)).isInstanceOf(
+            ExistsUserException.class
+        ).hasMessage(ErrorCode.EXISTS_USERNAME.getMessage());
+     }
+
     @DisplayName("사용자의 탈퇴를 검증한다.")
     @Test
     void deleteUser() {
