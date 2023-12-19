@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.global.config;
+package com.sparta.springtodolist.infra.mail;
 
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class MailConfig {
     @Value("${spring.mail.properties.smtp.auth}")
     private boolean auth;
 
-    @Value("${spring.mail.properties.smtp.starttls.enable}")
+    @Value("${spring.mail.properties.smtp.ssl.enable}")
     private boolean starttlsEnable;
 
     @Bean
@@ -44,7 +44,7 @@ public class MailConfig {
     private Properties getMailProperties() {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", auth);
-        properties.put("mail.smtp.starttls.enable", starttlsEnable);
+        properties.put("mail.smtp.ssl.enable", starttlsEnable);
 
         return properties;
     }

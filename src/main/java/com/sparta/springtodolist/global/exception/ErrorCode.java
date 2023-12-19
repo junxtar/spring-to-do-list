@@ -17,7 +17,11 @@ public enum ErrorCode {
 
     //comment
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "M01", "존재하지 않는 댓글입니다."),
-    COMMENT_NOT_ACCESS(HttpStatus.FORBIDDEN.value(), "M02", "댓글 접근 권한이 없습니다.");
+    COMMENT_NOT_ACCESS(HttpStatus.FORBIDDEN.value(), "M02", "댓글 접근 권한이 없습니다."),
+
+    //mail
+    NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND.value(), "T01", "존재하지 않는 이메일입니다."),
+    EXPIRED_CODE(HttpStatus.BAD_REQUEST.value(), "T02", "코드가 일치하지 않습니다.");
 
     private final int status;
     private final String code;

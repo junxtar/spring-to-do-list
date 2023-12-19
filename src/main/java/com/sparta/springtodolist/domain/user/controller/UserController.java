@@ -1,5 +1,6 @@
 package com.sparta.springtodolist.domain.user.controller;
 
+import com.sparta.springtodolist.domain.user.controller.dto.request.UserSendMailRequestDto;
 import com.sparta.springtodolist.domain.user.controller.dto.request.UserSignupRequestDto;
 import com.sparta.springtodolist.domain.user.service.UserService;
 import com.sparta.springtodolist.domain.user.service.dto.response.UserSignupResponseDto;
@@ -33,6 +34,13 @@ public class UserController {
     @GetMapping("/signup/name")
     public ResponseEntity<Void> nameCheck(@RequestParam String username) {
         userService.nameCheck(username);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/signup/mail")
+    public ResponseEntity<Void> sendMail(@RequestBody UserSendMailRequestDto requestDto) {
+        userService.sendMail(requestDto);
 
         return ResponseEntity.ok().build();
     }

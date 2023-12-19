@@ -1,12 +1,15 @@
 package com.sparta.springtodolist.domain.user.service;
 
 import com.sparta.springtodolist.domain.card.service.CardService;
+import com.sparta.springtodolist.domain.user.constant.UserConstant;
+import com.sparta.springtodolist.domain.user.controller.dto.request.UserSendMailRequestDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.domain.user.exception.ExistsUserException;
 import com.sparta.springtodolist.domain.user.repository.UserRepository;
 import com.sparta.springtodolist.domain.user.service.dto.request.UserSignupServiceRequestDto;
 import com.sparta.springtodolist.domain.user.service.dto.response.UserSignupResponseDto;
 import com.sparta.springtodolist.global.exception.ErrorCode;
+import com.sparta.springtodolist.infra.mail.MailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ public class UserService {
 
     private final CardService cardService;
     private final UserRepository userRepository;
+    private final MailUtil mailUtil;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -38,6 +42,10 @@ public class UserService {
         if (userRepository.existsByUsername(username)) {
             throw new ExistsUserException(ErrorCode.EXISTS_USERNAME);
         }
+    }
+
+    public void sendMail(UserSendMailRequestDto requestDto) {
+            mailUtil.sendMessage(requestDto.getEmail(), UserConstant.SUBJECT);
     }
 
     @Transactional
