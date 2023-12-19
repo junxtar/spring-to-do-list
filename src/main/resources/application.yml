@@ -5,6 +5,11 @@ spring:
     hibernate:
       ddl-auto: none
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 jwt:
  secret:
     key: 7LWc7KSA7JiB7J6F64uI64ukLuy1nOykgOyYgeyeheuLiOuLpC4=
@@ -22,12 +27,8 @@ spring:
     properties:
       smtp:
         auth: true
-        starttls:
+        ssl:
           enable: true
-  data:
-    redis:
-      host: localhost
-      port: 6379
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
