@@ -2,7 +2,7 @@ package com.sparta.springtodolist.domain.comment.entity;
 
 import com.sparta.springtodolist.domain.card.entity.Card;
 import com.sparta.springtodolist.domain.user.entity.User;
-import com.sparta.springtodolist.global.util.BaseEntity;
+import com.sparta.springtodolist.domain.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
