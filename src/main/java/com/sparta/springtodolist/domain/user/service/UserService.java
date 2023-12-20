@@ -9,7 +9,7 @@ import com.sparta.springtodolist.domain.user.repository.UserRepository;
 import com.sparta.springtodolist.domain.user.service.dto.request.UserSignupServiceRequestDto;
 import com.sparta.springtodolist.domain.user.service.dto.response.UserSignupResponseDto;
 import com.sparta.springtodolist.global.exception.ErrorCode;
-import com.sparta.springtodolist.infra.mail.MailUtil;
+import com.sparta.springtodolist.infra.mail.util.MailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
