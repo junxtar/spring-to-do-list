@@ -33,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
@@ -164,10 +165,12 @@ class CardServiceTest {
             .isPublic(true)
             .build();
 
-        given(cardRepository.findAllByOrderByCreatedAtDesc()).willReturn(List.of(card1, card2));
+        PageRequest pageRequest = PageRequest.of(1, 1);
+
+        given(cardRepository.findAllBy(any())).willReturn(List.of(card1, card2));
 
         // when
-        HashMap<String, List<CardResponseDto>> actual = cardService.getCardList(user1);
+        HashMap<String, List<CardResponseDto>> actual = cardService.getCardList(pageRequest, user1);
 
         // then
         assertThat(actual.get(user1.getUsername())).hasSize(1);
@@ -211,10 +214,15 @@ class CardServiceTest {
             .isPublic(true)
             .build();
 
-        given(cardRepository.findAllByOrderByCreatedAtDesc()).willReturn(List.of(card1, card2));
+        int page = 1;
+        int size = 1;
+        String sortBy = "created_at";
+        boolean isAsc = false;
+        PageRequest pageRequest = PageRequest.of(1, 1);
+        given(cardRepository.findAllBy(any())).willReturn(List.of(card1, card2));
 
         // when
-        HashMap<String, List<CardResponseDto>> actual = cardService.getCardList(user1);
+        HashMap<String, List<CardResponseDto>> actual = cardService.getCardList(pageRequest, user1);
 
         // then
         assertThat(actual.get(user1.getUsername())).hasSize(1);
