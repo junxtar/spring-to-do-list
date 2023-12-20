@@ -27,7 +27,9 @@ spring:
     properties:
       smtp:
         auth: true
-        ssl:
+        starttls:
+          enable: true
+        ssl: # 네이버는 ssl 필수
           enable: true
 
   datasource:
