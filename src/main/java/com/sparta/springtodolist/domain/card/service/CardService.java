@@ -20,6 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +46,12 @@ public class CardService {
         return SingleCardResponseDto.of(card, commentList);
     }
 
-    public HashMap<String, List<CardResponseDto>> getCardList(User user) {
-        return cardRepository.findAllByOrderByCreatedAtDesc()
+    public HashMap<String, List<CardResponseDto>> getCardList(int page, int size, String sortBy,
+        boolean isAsc, User user) {
+
+        Pageable pageable = getPageable(page, size, sortBy, isAsc);
+
+        return cardRepository.findAllBy(pageable)
             .stream()
             .map(CardResponseDto::of)
             .filter(dto -> dto.getUsername().equals(user.getUsername()) || dto.getIsPublic())
@@ -130,6 +138,13 @@ public class CardService {
     public Card verifyExistsCard(Long cardId) {
         return cardRepository.findById(cardId)
             .orElseThrow(() -> new CardNotFoundException(ErrorCode.CARD_NOT_FOUND));
+    }
+
+    private static Pageable getPageable(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Direction.ASC : Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+
+        return PageRequest.of(page, size, sort);
     }
 
     private static void verifyCardOwner(User user, Card card) {

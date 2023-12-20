@@ -43,8 +43,16 @@ public class CardController {
 
     @GetMapping
     public ResponseEntity<HashMap<String, List<CardResponseDto>>> getCardList(
+        @RequestParam("page") int page,
+        @RequestParam("size") int size,
+        @RequestParam("sortBy") String sortBy,
+        @RequestParam("isAsc") boolean isAsc,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         HashMap<String, List<CardResponseDto>> cardMap = cardService.getCardList(
+            page - 1,
+            size,
+            sortBy,
+            isAsc,
             userDetails.getUser());
 
         return ResponseEntity.ok(cardMap);
