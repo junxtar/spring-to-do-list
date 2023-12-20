@@ -33,6 +33,8 @@ public class Card extends BaseEntity {
     private String content;
     private Boolean isCompleted;
     private Boolean isPublic;
+    private String imageName;
+    private String imagePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -42,12 +44,15 @@ public class Card extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    private Card(Long id, String title, String content, Boolean isCompleted, Boolean isPublic, User user) {
-        this.id = id;
+    private Card(String title, String content, Boolean isCompleted, Boolean isPublic,
+        String imageName,
+        String imagePath, User user) {
         this.title = title;
         this.content = content;
         this.isCompleted = isCompleted;
         this.isPublic = isPublic;
+        this.imageName = imageName;
+        this.imagePath = imagePath;
         this.user = user;
     }
 

@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -73,9 +75,11 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<CardCreateResponseDto> createCard(
-        @RequestBody CardCreateRequestDto requestDto, @AuthenticationPrincipal
-    UserDetailsImpl userDetails) {
+        @RequestPart("dto") CardCreateRequestDto requestDto,
+        @RequestPart("file") MultipartFile multipartFile,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardCreateResponseDto responseDto = cardService.createCard(requestDto.toServiceRequest(),
+            multipartFile,
             userDetails.getUser());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);

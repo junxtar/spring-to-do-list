@@ -21,7 +21,13 @@ public enum ErrorCode {
 
     //mail
     NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND.value(), "T01", "존재하지 않는 이메일입니다."),
-    EXPIRED_CODE(HttpStatus.BAD_REQUEST.value(), "T02", "코드가 일치하지 않습니다.");
+    EXPIRED_CODE(HttpStatus.BAD_REQUEST.value(), "T02", "코드가 일치하지 않습니다."),
+
+    //file
+    NOT_ALLOWED_FILE_TYPE(HttpStatus.METHOD_NOT_ALLOWED.value(), "F01", "허용하지 않는 파일 형태 입니다."),
+    NOT_FOUND_FILE(HttpStatus.NOT_FOUND.value(), "F02", "존재하지 않는 파일입니다."),
+    NOT_READ_TYPE(HttpStatus.INTERNAL_SERVER_ERROR.value(), "F03", "서버의 문제로 파일을 읽을 수 없습니다.");
+
 
     private final int status;
     private final String code;
