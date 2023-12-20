@@ -51,6 +51,16 @@ spring:
       pageable:
         one-indexed-parameters: true
 
+cloud:
+  aws:
+    s3:
+      bucket: "${bucketName}"
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: "${AccessKey}"
+      secret-key: "${SecretKey}"
+
 ---
 spring:
   config:
