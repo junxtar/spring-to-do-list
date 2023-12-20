@@ -46,6 +46,10 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: update
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
 
 ---
 spring:
@@ -69,3 +73,16 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+
+  mail:
+    username: "${MAIL_USERNAME}"
+    password: "${MAIL_PASSWORD}"
+    host: smtp.naver.com
+    port: 465
+    properties:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+        ssl: # 네이버는 ssl 필수
+          enable: true

@@ -27,7 +27,7 @@ public class MailConfig {
     @Value("${spring.mail.properties.smtp.starttls.enable}")
     private boolean starttlsEnable;
 
-    @Value("${spring.mail.properties.ssl.enable}")
+    @Value("${spring.mail.properties.smtp.ssl.enable}")
     private boolean ssl;
 
     @Bean

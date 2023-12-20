@@ -9,11 +9,8 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     List<Card> findAllBy(Pageable pageable);
     List<Card> findAllByOrderByCreatedAtDesc();
-
     List<Card> findCardsByTitleContaining(String title);
-
     void deleteAllByUser_Id(Long id);
-
     List<Card> findByUser_Id(Long id);
 
 }
