@@ -75,10 +75,10 @@ spring:
     password:
 
   mail:
-    username: "${MAIL_USERNAME}"
-    password: "${MAIL_PASSWORD}"
-    host: smtp.naver.com
-    port: 465
+    username: test@test.com
+    password: test
+    host: test.test.test
+    port: 1111
     properties:
       smtp:
         auth: true
