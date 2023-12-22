@@ -20,7 +20,7 @@ public class SchedulerUtil {
     private final CardRepository cardRepository;
     private final CommentRepository commentRepository;
 
-    @Scheduled(cron = "0 0 0 * * *") //매일 오전 0시 00분
+    @Scheduled(cron = "1 0 0 * * *") //매일 오전 0시 00분 01초
     public void deleteCard() {
         List<Card> cards = cardRepository.findAll();
         LocalDateTime date = LocalDateTime.now();
