@@ -23,6 +23,8 @@ import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDt
 import com.sparta.springtodolist.domain.card.service.dto.response.SingleCardResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
+import com.sparta.springtodolist.infra.s3.util.S3Util;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +43,9 @@ class CardServiceTest {
 
     @Mock
     private CardRepository cardRepository;
+
+    @Mock
+    private S3Util s3Util;
 
     @InjectMocks
     private CardService cardService;
@@ -334,7 +339,7 @@ class CardServiceTest {
 
     @DisplayName("카드를 생성한다.")
     @Test
-    void createCard() {
+    void createCard() throws IOException {
         // given
         User user1 = User.builder()
             .id(1L)
@@ -353,10 +358,11 @@ class CardServiceTest {
             .user(user1)
             .build();
 
+        given(s3Util.uploadImage(any(), anyString())).willReturn("test");
         given(cardRepository.save(any(Card.class))).willReturn(card);
 
         // when
-        CardCreateResponseDto actual = cardService.createCard(request.toServiceRequest(), user1);
+        CardCreateResponseDto actual = cardService.createCard(request.toServiceRequest(), any(), user1);
 
         // then
         assertThat(actual.getUsername()).isEqualTo(user1.getUsername());

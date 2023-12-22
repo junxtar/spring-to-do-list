@@ -96,3 +96,13 @@ spring:
           enable: true
         ssl: # 네이버는 ssl 필수
           enable: true
+
+cloud:
+  aws:
+    s3:
+      bucket: test
+    region:
+      static: test
+    credentials:
+      access-key: test
+      secret-key: test
