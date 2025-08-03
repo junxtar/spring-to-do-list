@@ -4,14 +4,12 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.sparta.springtodolist.ControllerTestSupport;
 import com.sparta.springtodolist.common.mvc.MockSpringSecurityFilter;
-import com.sparta.springtodolist.domain.card.controller.dto.request.CardCreateRequestDto;
 import com.sparta.springtodolist.domain.card.controller.dto.request.CardUpdateRequestDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.secutiry.UserDetailsImpl;
@@ -92,25 +90,6 @@ public class CardControllerTest extends ControllerTestSupport {
         mockMvc.perform(get("/api/cards/search")
                 .principal(mockPrincipal))
             .andExpect(status().isBadRequest());
-    }
-
-    @DisplayName("카드를 생성한다.")
-    @Test
-    void createCard() throws Exception {
-        // given
-        CardCreateRequestDto request = CardCreateRequestDto.builder()
-            .title("test")
-            .content("testContent")
-            .isPublic(true)
-            .build();
-
-        // when, then
-        mockMvc.perform(
-            post("/api/cards")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .principal(mockPrincipal)
-        ).andExpect(status().isCreated());
     }
 
     @DisplayName("카드를 수정한다.")

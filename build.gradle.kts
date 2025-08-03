@@ -71,7 +71,6 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
-
     //security
     implementation("org.springframework.boot:spring-boot-starter-security")
 
@@ -83,9 +82,6 @@ dependencies {
 
     //thymeleaf
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-
-    //s3
-    implementation("com.amazonaws:aws-java-sdk-s3:1.12.623")
 
     //validation
     implementation("org.springframework.boot:spring-boot-starter-validation")

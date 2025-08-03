@@ -3,7 +3,7 @@ package com.sparta.springtodolist.global.scheduler;
 import com.sparta.springtodolist.domain.card.entity.Card;
 import com.sparta.springtodolist.domain.card.repository.CardRepository;
 import com.sparta.springtodolist.domain.comment.repository.CommentRepository;
-import com.sparta.springtodolist.infra.s3.util.S3Util;
+//import com.sparta.springtodolist.infra.s3.util.S3Util;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Slf4j(topic = "Scheduler: ")
 public class SchedulerUtil {
 
-    private final S3Util s3Util;
+//    private final S3Util s3Util;
     private final CardRepository cardRepository;
     private final CommentRepository commentRepository;
 
@@ -27,7 +27,7 @@ public class SchedulerUtil {
         for (Card card : cards) {
             if (date.isAfter(card.getModifiedAt().plusDays(90))) {
                 commentRepository.deleteByCard(card);
-                s3Util.deleteImage(card.getImageName(), S3Util.IMAGE_PATH);
+//                s3Util.deleteImage(card.getImageName(), S3Util.IMAGE_PATH);
                 cardRepository.delete(card);
             }
         }

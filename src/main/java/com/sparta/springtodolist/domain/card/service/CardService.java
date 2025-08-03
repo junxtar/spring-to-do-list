@@ -16,7 +16,6 @@ import com.sparta.springtodolist.domain.card.service.dto.response.SingleCardResp
 import com.sparta.springtodolist.domain.comment.service.dto.resopnse.CommentResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
-import com.sparta.springtodolist.infra.s3.util.S3Util;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CardService {
 
     private final CardRepository cardRepository;
-    private final S3Util s3Util;
+//    private final S3Util s3Util;
 
     public SingleCardResponseDto getCard(Long cardId, User user) {
         Card card = verifyExistsCard(cardId);
@@ -79,16 +78,16 @@ public class CardService {
     public CardCreateResponseDto createCard(CardCreateServiceRequestDto requestDto,
         MultipartFile multipartFile,
         User user) {
-        String imageName = s3Util.uploadImage(multipartFile, S3Util.IMAGE_PATH);
-        String imagePath = s3Util.getImagePath(imageName, S3Util.IMAGE_PATH);
+//        String imageName = s3Util.uploadImage(multipartFile, S3Util.IMAGE_PATH);
+//        String imagePath = s3Util.getImagePath(imageName, S3Util.IMAGE_PATH);
 
         Card card = Card.builder()
             .content(requestDto.getContent())
             .title(requestDto.getTitle())
             .isCompleted(DEFAULT_COMPLETE_VALUE)
             .isPublic(requestDto.getIsPublic())
-            .imagePath(imagePath)
-            .imageName(imageName)
+//            .imagePath(imagePath)
+//            .imageName(imageName)
             .user(user)
             .build();
 
@@ -130,7 +129,7 @@ public class CardService {
         Card card = verifyExistsCard(cardId);
         verifyCardOwner(user, card);
 
-        s3Util.deleteImage(card.getImageName(), S3Util.IMAGE_PATH);
+//        s3Util.deleteImage(card.getImageName(), S3Util.IMAGE_PATH);
         cardRepository.delete(card);
     }
 

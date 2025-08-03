@@ -16,7 +16,7 @@ class CardRepositoryTest extends RepositoryTestSupport {
     CardRepository cardRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @DisplayName("생성 일자 기준으로 내림차순으로 카드 리스트를 조회한다.")
     @Test

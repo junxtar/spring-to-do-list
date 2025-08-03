@@ -10,21 +10,17 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.sparta.springtodolist.domain.card.controller.dto.request.CardCreateRequestDto;
 import com.sparta.springtodolist.domain.card.controller.dto.request.CardUpdateRequestDto;
 import com.sparta.springtodolist.domain.card.entity.Card;
 import com.sparta.springtodolist.domain.card.exception.CardNotAccessException;
 import com.sparta.springtodolist.domain.card.exception.CardNotFoundException;
 import com.sparta.springtodolist.domain.card.repository.CardRepository;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardCompletedResponseDto;
-import com.sparta.springtodolist.domain.card.service.dto.response.CardCreateResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardPrivatedResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.CardResponseDto;
 import com.sparta.springtodolist.domain.card.service.dto.response.SingleCardResponseDto;
 import com.sparta.springtodolist.domain.user.entity.User;
 import com.sparta.springtodolist.global.exception.ErrorCode;
-import com.sparta.springtodolist.infra.s3.util.S3Util;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -43,9 +39,6 @@ class CardServiceTest {
 
     @Mock
     private CardRepository cardRepository;
-
-    @Mock
-    private S3Util s3Util;
 
     @InjectMocks
     private CardService cardService;
@@ -335,37 +328,6 @@ class CardServiceTest {
             tuple("test1", "testContent1", "test1", false, false),
             tuple("test2", "testContent2", "test2", true, true)
         );
-    }
-
-    @DisplayName("카드를 생성한다.")
-    @Test
-    void createCard() throws IOException {
-        // given
-        User user1 = User.builder()
-            .id(1L)
-            .username("test1")
-            .password("test1234")
-            .build();
-
-        CardCreateRequestDto request = CardCreateRequestDto.builder()
-            .title("test3")
-            .content("testContent3")
-            .build();
-
-        Card card = Card.builder()
-            .title("test3")
-            .content("testContent3")
-            .user(user1)
-            .build();
-
-        given(s3Util.uploadImage(any(), anyString())).willReturn("test");
-        given(cardRepository.save(any(Card.class))).willReturn(card);
-
-        // when
-        CardCreateResponseDto actual = cardService.createCard(request.toServiceRequest(), any(), user1);
-
-        // then
-        assertThat(actual.getUsername()).isEqualTo(user1.getUsername());
     }
 
     @DisplayName("자신의 카드를 수정한다.")

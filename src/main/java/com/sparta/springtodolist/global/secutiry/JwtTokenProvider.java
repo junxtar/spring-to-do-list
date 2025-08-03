@@ -28,8 +28,6 @@ public class JwtTokenProvider {
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
-    // 토큰 만료시간
-    private final long TOKEN_TIME = 30 * 60 * 1000L;
 
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -45,6 +43,8 @@ public class JwtTokenProvider {
     public String createToken(String username) {
         Date date = new Date();
 
+        // 토큰 만료시간
+        long TOKEN_TIME = 30 * 60 * 1000L;
         return BEARER_PREFIX +
             Jwts.builder()
                 .setSubject(username)
