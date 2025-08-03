@@ -34,9 +34,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(A1bFPjzEREj3HNOrHJ4aAA==)
-    url: ENC(czUHDXLPgAmxJ3O/dC2xmBvKZ/dDxqUimr5Yl2gTbWVjmpkfv6Hxil0pM15/c7r2)
-    password: ENC(GI1jpFnyG73kkoZdYLV6YWbVBVBqU6pY)
+    username: root
+    url: jdbc:mysql://localhost:3306/card
+    password: ENC(ioXO2hzfipQL4WEM3EAYn5L+RuyuVUdk)
 
   jpa:
     properties:
@@ -66,6 +66,11 @@ spring:
   config:
     activate:
       on-profile: test
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
   jpa:
     hibernate:
