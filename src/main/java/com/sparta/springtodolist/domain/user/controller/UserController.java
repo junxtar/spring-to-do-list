@@ -4,6 +4,7 @@ import com.sparta.springtodolist.domain.user.controller.dto.request.UserSendMail
 import com.sparta.springtodolist.domain.user.controller.dto.request.UserSignupRequestDto;
 import com.sparta.springtodolist.domain.user.service.UserService;
 import com.sparta.springtodolist.domain.user.service.dto.response.UserSignupResponseDto;
+import com.sparta.springtodolist.global.dto.ApiResponse;
 import com.sparta.springtodolist.global.secutiry.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserSignupResponseDto> signup(
+    public ApiResponse<UserSignupResponseDto> signup(
         @Valid @RequestBody UserSignupRequestDto userSignupRequestDto) {
 
-        return ResponseEntity.ok(userService.signup(userSignupRequestDto.toServiceRequest()));
+        return ApiResponse.success(userService.signup(userSignupRequestDto.toServiceRequest()));
     }
 
     @GetMapping("/signup/name")
